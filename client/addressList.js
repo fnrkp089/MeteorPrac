@@ -15,13 +15,22 @@ button[name=remove] = 샐렉터
 이벤트 함수 내에서의 this는 context를 의미하며,  each list안에 있는 tr의 도큐먼트를 가르킨다.
 evt = 이벤트
 tmpl = 이벤트가 일어난 템플릿 요소 (Blaze.template)*/ 
-Template.addressList.events({
+Template.addressListItem.events({
     'click button[name=remove]' (evt,tmpl){
         AddressBook.remove({_id: this._id});
-    }
+    },
+		'click button[name=modify]' (evt,tmpl){
+			Sesstion.set('editItem', this._id); //editItem이라는 세션에 현재 클릭한 주소록의 id를 부여한다.
+	}
 });
 
-Template.addressList.events({
+Template.addressListItem.helpers({
+	editing(){
+		return this._id = Session.get('editItem'); // editItem의 세션 아이디 가져오기.
+	}
+});
+
+Template.addressInput.events({
     'click button[name=saveAddress]' (evt,tmpl){
 			//입력값을 객체형으로 받기
 			let address = {

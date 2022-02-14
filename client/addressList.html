@@ -7,7 +7,7 @@
 
 <body>
     {{> addressInput}}<!--주소록 추가 템플릿-->
-    {{>addressList}}<!--addressList라는 템플릿이 들어간다는 미티어 템플릿 언어의 삽입(insert)-->
+    {{> addressList}}<!--addressList라는 템플릿이 들어간다는 미티어 템플릿 언어의 삽입(insert)-->
 </body>
 
 <template name='addressList'> <!--템플릿으로 대체됨-->
@@ -24,17 +24,7 @@
       </thead>
       <tbody>
         {{#each list}}<!--each: 블록 헬퍼. list배열의 개수만큼 블록 안의 내용을 반복.-->
-        <tr>
-          <td>{{name}}</td> <!--표현식 헬퍼. 객체의 키에 해당하는 내용-->
-          <td>{{phone}}</td>
-          <td>{{email}}</td>
-          <td>{{company}}</td>
-          <td>{{birthday}}</td>
-          <td>
-            <button class='btn btn-warning btn-sm' name='remove'>
-            <i class='glyphicon glyphicon-trash'></i> 삭제</button>
-        </td>
-        </tr>
+          {{> addressListItem}} <!--하위 템플릿으로 변환-->
         {{/each}}
       </tbody>
     </table>
@@ -54,4 +44,37 @@
         </div>
      </div>
   </div>
+</template>
+
+<template name='addressListItem'> <!--하위 템플릿으로 변환-->
+  {{#if editing}}
+  <tr>
+    <td><input type='text' style='width: 100%;' name="name" value="{{name}}"/></td> <!--표현식 헬퍼. 객체의 키에 해당하는 내용-->
+    <td><input type='text' style='width: 100%;' name="phone" value="{{phone}}"/></td>
+    <td><input type='text' style='width: 100%;' name="email" value="{{email}}"/></td>
+    <td><input type='text' style='width: 100%;' name="company" value="{{company}}"/></td>
+    <td><input type='text' style='width: 100%;' name="birthday" value="{{birthday}}"/></td>
+    <td>
+      <button class='btn btn-warning btn-sm' name='save'>
+      <i class='glyphicon glyphicon-ok'></i> 저장 </button>
+      <button class='btn btn-warning btn-sm' name='cancle'>
+      <i class='glyphicon glyphicon-ok'></i> 취소 </button>
+    </td>
+  </tr>
+  {{else}}
+  <tr>
+    <td><div class=“edit-thing”>{{name}}</div></td> <!--표현식 헬퍼. 객체의 키에 해당하는 내용-->
+    <td><div class=“edit-thing”>{{phone}}</div></td>
+    <td><div class=“edit-thing”>{{email}}</div></td>
+    <td><div class=“edit-thing”>{{company}}</div></td>
+    <td><div class=“edit-thing”>{{birthday}}</div></td>
+    <td>
+      <button class='btn btn-warning btn-sm' name='remove'>
+      <i class='glyphicon glyphicon-trash'></i> 삭제</button>
+      <button class='btn btn-warning btn-sm' name='modify'>
+      <i class='glyphicon glyphicon-wrench'></i> 수정</button>
+    </td>
+  </tr>
+  {{/if}}
+  
 </template>
