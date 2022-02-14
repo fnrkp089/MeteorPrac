@@ -20,7 +20,18 @@ Template.addressListItem.events({
         AddressBook.remove({_id: this._id});
     },
 		'click button[name=modify]' (evt,tmpl){
-			Sesstion.set('editItem', this._id); //editItem이라는 세션에 현재 클릭한 주소록의 id를 부여한다.
+			Session.set('editItem', this._id); //editItem이라는 세션에 현재 클릭한 주소록의 id를 부여한다.
+	},
+	'click button [name=save]'(evt, tmpl){
+		let address = {
+			name:tmpl.find('input[name=name]').value,
+			phone:tmpl.find('input[name=phone]').value,
+			email:tmpl.find('input[name=email]').value,
+			company:tmpl.find('input[name=company]').value,
+			birthday:tmpl.find('input[name=birthday]').value,
+		}
+		AddressBook.update({_id:this._id}, {$set:address});
+		Session.set('editItem',null)
 	}
 });
 
