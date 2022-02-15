@@ -2105,10 +2105,15 @@ const fixtures =
 ]
 
 Meteor.startup(() => {
-    if(AddressBook.find().count() === 0){
-      console.log('Data Is Not Exist. Start Inserting FIXTURE Data');
-      for(let i = 0 ; i < 10 ; i++){
-          AddressBook.insert(fixtures[i]);
-      }
-    }
+   
+});
+
+Meteor.methods({
+	makeFixtureData(userId){
+		for(let i = 0 ; i < fixtures.length ; i++){
+			fixtures[i]['owner'] = userId;
+			AddressBook.insert(fixtures[i]);
+		}
+		return 'DATA INSERT COMPLETE'
+		}
 });
